@@ -1,4 +1,4 @@
-# Awesome Project Build with TypeORM
+# Chat_App
 
 Steps to run this project:
 
