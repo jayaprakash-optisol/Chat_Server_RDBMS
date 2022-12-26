@@ -4,7 +4,7 @@ import bcryptjs from 'bcryptjs';
 
 AppDataSource.initialize()
   .then(async () => {
-    console.log('Inserting a new users into the database...');
+    console.log('Seeding test users into the database...');
 
     const seedUsers = [
       {

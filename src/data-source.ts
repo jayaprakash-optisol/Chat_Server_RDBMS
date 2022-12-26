@@ -1,23 +1,23 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
+import { config } from './config/config';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'dev',
-  password: 'Local@123',
-  database: 'chat_app',
+  host: config.pgsql.host,
+  port: config.pgsql.port,
+  username: config.pgsql.username,
+  password: config.pgsql.password,
+  database: config.pgsql.database,
   synchronize: true,
   logging: false,
   entities: ['src/entity/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
   subscribers: ['src/subscriber/**/*.ts'],
-  // migrationsTableName: 'migrations',
 });
 
 AppDataSource.initialize()
   .then(async () => {
-    // console.log('Initialized Database');
+    console.log('<-- Database Initialized -->');
   })
   .catch((error) => console.log(error));

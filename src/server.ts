@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction, Express } from 'express';
-import { Server } from 'socket.io';
 
 import Logging from './library/Logging';
 import { config } from './config/config';
+
+import swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from './swagger.json';
 
 import { AppDataSource } from './data-source';
 
@@ -11,6 +13,7 @@ import chatRoutes from './routes/Chat.routes';
 import messageRoutes from './routes/Message.routes';
 
 import { notFound, errorHandler } from './middlewares/errorMiddleware';
+import { socketConnection } from './socket_controller/socketManager';
 
 const app: Express = express();
 
@@ -62,6 +65,8 @@ const StartServer = async () => {
   });
 
   /** Routes */
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
   app.use('/api/user', userRoutes);
   app.use('/api/chat', chatRoutes);
   app.use('/api/message', messageRoutes);
@@ -75,47 +80,7 @@ const StartServer = async () => {
   app.use(notFound);
   app.use(errorHandler);
 
-  const io = new Server(server, {
-    pingTimeout: 60000,
-    cors: {
-      origin: 'http://localhost:3000',
-    },
-  });
-
-  io.on('connection', (socket) => {
-    Logging.info('<-- Connected to socket -->');
-
-    socket.on('setup', (userData) => {
-      socket.join(userData.id);
-      socket.emit('Connected');
-    });
-
-    socket.on('join chat', (room) => {
-      socket.join(room);
-      Logging.info(`User joined room ${room}`);
-    });
-
-    socket.on('typing', (room) => socket.in(room).emit('typing'));
-    socket.on('typing stopped', (room) =>
-      socket.in(room).emit('typing stopped')
-    );
-
-    socket.on('new message', (newMessage) => {
-      let chat = newMessage.chat;
-      if (!chat.users) return Logging.warn('No Users');
-
-      chat.users?.forEach((user: any) => {
-        if (user.id === newMessage.sender.id) return;
-
-        socket.in(user.id).emit('message received', newMessage);
-      });
-    });
-
-    socket.off('setup', (userData) => {
-      Logging.info('User Disconnected');
-      socket.leave(userData.id);
-    });
-  });
+  await socketConnection(server);
 };
 
 export { app, server };
