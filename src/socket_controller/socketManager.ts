@@ -1,11 +1,12 @@
 import { Server, Socket } from 'socket.io';
+import { config } from '../config/config';
 import Logging from '../library/Logging';
 
 const socketConnection = async (server: any) => {
   const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-      origin: 'http://localhost:3000',
+      origin: config.server.socket_url,
     },
   });
 
@@ -13,7 +14,7 @@ const socketConnection = async (server: any) => {
     Logging.info('<-- Connected to socket -->');
 
     socket.on('setup', (userData) => {
-      socket.join(userData._id);
+      socket.join(userData.id);
       socket.emit('Connected');
     });
 
@@ -34,15 +35,15 @@ const socketConnection = async (server: any) => {
       if (!chat.users) return Logging.warn('No Users');
 
       chat.users.forEach((user: any) => {
-        if (user._id === newMessage.sender._id) return;
+        if (user.id === newMessage.sender.id) return;
 
-        socket.in(user._id).emit('message received', newMessage);
+        socket.in(user.id).emit('message received', newMessage);
       });
     });
 
     socket.off('setup', (userData) => {
       Logging.info('User Disconnected');
-      socket.leave(userData._id);
+      socket.leave(userData.id);
     });
   });
 };

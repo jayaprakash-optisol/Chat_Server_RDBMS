@@ -12,6 +12,7 @@ const STAGE: any = process.env.STAGE || 'development';
 const JWT_SECRET: any = process.env.JWT_SECRET;
 
 const SERVER_PORT: number = Number(process.env.SERVER_PORT) || 5000;
+const SOCKET_URL: string = process.env.SOCKET_URL || '';
 
 export const config = {
   stage: STAGE,
@@ -24,6 +25,7 @@ export const config = {
   },
   server: {
     port: SERVER_PORT,
+    socket_url: SOCKET_URL,
   },
   jwt: {
     secret: JWT_SECRET,
