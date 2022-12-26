@@ -1,5 +1,5 @@
-import { AppDataSource } from './data-source';
-import { User } from './entity/User';
+import { AppDataSource } from '../data-source';
+import { User } from '../entity/User';
 import bcryptjs from 'bcryptjs';
 
 AppDataSource.initialize()

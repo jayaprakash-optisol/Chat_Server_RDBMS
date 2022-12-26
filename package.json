@@ -41,7 +41,7 @@
   "scripts": {
     "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
     "start": "ts-node src/server.ts",
-    "seed-users": "node ./src/seed_users.ts",
+    "seed-users": "node ./src/__seeders__/seed_users.ts",
     "build": "tsc",
     "dev": "nodemon --files ./src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/data-source.ts",
