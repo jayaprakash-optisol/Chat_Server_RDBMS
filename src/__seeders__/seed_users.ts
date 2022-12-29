@@ -34,13 +34,13 @@ AppDataSource.initialize()
     ];
 
     await Promise.all(
-      seedUsers.map(async (su) => {
-        const hashedPassword = await bcryptjs.hash(su.password, 10);
+      seedUsers.map(async (usr) => {
+        const hashedPassword = await bcryptjs.hash(usr.password, 10);
 
         const user = new User();
-        user.id = su.id;
-        user.name = su.name;
-        user.email = su.email;
+        user.id = usr.id;
+        user.name = usr.name;
+        user.email = usr.email;
         user.password = hashedPassword;
         user.isAdmin = false;
         await AppDataSource.manager.save(user);

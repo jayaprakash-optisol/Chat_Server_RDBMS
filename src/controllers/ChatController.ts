@@ -4,7 +4,6 @@ import { User } from '../entity/User';
 import { Chat } from '../entity/Chat';
 import Logging from '../library/Logging';
 import { fetchUserById, fetchUsersByIds } from '../common/CommonService';
-import { In } from 'typeorm';
 
 const chatRepository = AppDataSource.getRepository(Chat);
 const userRepository = AppDataSource.getRepository(User);
