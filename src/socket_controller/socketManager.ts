@@ -26,15 +26,15 @@ const socketConnection = async (server: any) => {
     socket.on('typing', (room) => {
       socket.in(room).emit('typing');
     });
-    socket.on('typing stopped', (room) =>
-      socket.in(room).emit('typing stopped')
-    );
+    socket.on('typing stopped', (room) => {
+      socket.in(room).emit('typing stopped');
+    });
 
     socket.on('new message', (newMessage) => {
       let chat = newMessage.chat;
-      if (!chat.users) return Logging.warn('No Users');
+      if (!chat?.users) return Logging.warn('No Users');
 
-      chat.users.forEach((user: any) => {
+      chat?.users?.forEach((user: any) => {
         if (user.id === newMessage.sender.id) return;
 
         socket.in(user.id).emit('message received', newMessage);

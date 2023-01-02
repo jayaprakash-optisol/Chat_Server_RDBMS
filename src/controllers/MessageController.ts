@@ -4,6 +4,7 @@ import { Chat } from '../entity/Chat';
 import { Message } from '../entity/Message';
 import Logging from '../library/Logging';
 import { fetchUserById } from '../common/CommonService';
+import { s3Upload } from '../services/s3Service';
 
 const messageRepository = AppDataSource.getRepository(Message);
 const chatRepository = AppDataSource.getRepository(Chat);
@@ -42,6 +43,24 @@ const sendMessage = async (req: Request, res: Response) => {
   }
 };
 
+const checkBucket = async (bucket: string) => {
+  // try {
+  //   const res =
+  // } catch (error) {
+  // }
+};
+
+const uploadFiles = async (req: Request, res: Response) => {
+  try {
+    const files: any = req.files;
+    const result = await s3Upload(files);
+    res.status(201).json(result);
+  } catch (error) {
+    Logging.error(error);
+    return res.status(400).json({ error });
+  }
+};
+
 const allMessages = async (req: Request, res: Response) => {
   try {
     const messages = await messageRepository.find({
@@ -70,4 +89,6 @@ const allMessages = async (req: Request, res: Response) => {
 export default {
   sendMessage,
   allMessages,
+  checkBucket,
+  uploadFiles,
 };

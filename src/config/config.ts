@@ -14,6 +14,11 @@ const JWT_SECRET: any = process.env.JWT_SECRET;
 const SERVER_PORT: number = Number(process.env.SERVER_PORT) || 5000;
 const SOCKET_URL: string = process.env.SOCKET_URL || '';
 
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+const BUCKET_NAME = process.env.BUCKET_NAME;
+const AWS_REGION = process.env.AWS_REGION;
+
 export const config = {
   stage: STAGE,
   pgsql: {
@@ -29,5 +34,11 @@ export const config = {
   },
   jwt: {
     secret: JWT_SECRET,
+  },
+  aws: {
+    access_id: AWS_ACCESS_KEY,
+    secret_key: AWS_SECRET_KEY,
+    bucket_name: BUCKET_NAME,
+    region: AWS_REGION,
   },
 };

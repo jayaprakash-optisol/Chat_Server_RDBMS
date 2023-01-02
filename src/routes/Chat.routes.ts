@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import ChatController from '../controllers/ChatController';
-// import ChatController from '../mongoControllers/ChatController';
 import { protect } from '../middlewares/authMiddleware';
 
 const router = Router();

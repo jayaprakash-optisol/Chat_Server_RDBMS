@@ -74,6 +74,17 @@ const fetchUsers = async (req: Request, res: Response) => {
   }
 };
 
+const fetchUser = async (req: Request, res: Response) => {
+  try {
+    const user = await userRepository.findOne({ where: { id: req.params.id } });
+
+    res.status(200).send(user);
+  } catch (error) {
+    Logging.error(error);
+    res.status(404).send({ message: 'Failed to retrieve users' });
+  }
+};
+
 const authUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
 
@@ -110,4 +121,4 @@ const authUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default { registerUser, fetchUsers, authUser };
+export default { registerUser, fetchUsers, authUser, fetchUser };
