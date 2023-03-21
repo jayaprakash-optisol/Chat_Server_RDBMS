@@ -5,14 +5,15 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Chat } from './Chat';
 import { Message } from './Message';
 
 @Entity('users')
 export class User {
-  @Column({ unique: true, nullable: false, primary: true })
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ nullable: false })
   name: string;

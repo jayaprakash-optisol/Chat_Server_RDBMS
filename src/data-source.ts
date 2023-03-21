@@ -3,13 +3,13 @@ import { DataSource } from 'typeorm';
 import { config } from './config/config';
 
 export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: config.pgsql.host,
-  port: config.pgsql.port,
-  username: config.pgsql.username,
-  password: config.pgsql.password,
-  database: config.pgsql.database,
-  synchronize: true,
+  type: 'mysql',
+  host: config.mysql.host,
+  port: config.mysql.port,
+  username: config.mysql.username,
+  password: config.mysql.password,
+  database: config.mysql.database,
+  synchronize: false,
   logging: false,
   entities: ['src/entity/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],

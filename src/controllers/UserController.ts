@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 import { User } from '../entity/User';
 import { AppDataSource } from '../data-source';
-import { v4 as uuidv4 } from 'uuid';
 
 import { generateToken } from '../config/generateToken';
 import Logging from '../library/Logging';
@@ -13,7 +12,7 @@ const userRepository = AppDataSource.getRepository(User);
 const registerUser = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { name, email, password, profilePhoto } = req.body;
 
@@ -32,7 +31,6 @@ const registerUser = async (
   const hashedPassword = await bcryptjs.hash(password, 10);
 
   const user = await userRepository.save({
-    id: uuidv4(),
     name,
     email,
     password: hashedPassword,
@@ -64,7 +62,7 @@ const fetchUsers = async (req: Request, res: Response) => {
       : {};
 
     const users = (await userRepository.find(keyword)).filter(
-      (user) => user.id !== req.user?.id
+      (user) => user.id !== req.user?.id,
     );
 
     res.status(200).send({ users });
@@ -76,7 +74,9 @@ const fetchUsers = async (req: Request, res: Response) => {
 
 const fetchUser = async (req: Request, res: Response) => {
   try {
-    const user = await userRepository.findOne({ where: { id: req.params.id } });
+    const user = await userRepository.findOne({
+      where: { id: parseInt(req.params.id) },
+    });
 
     res.status(200).send(user);
   } catch (error) {

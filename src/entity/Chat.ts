@@ -14,8 +14,8 @@ import { User } from './User';
 
 @Entity()
 export class Chat {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   chatName: string;
@@ -31,7 +31,7 @@ export class Chat {
   latestMessages: Message;
 
   @Column('uuid', { nullable: true })
-  latestMessageId: string;
+  latestMessageId: number;
 
   @ManyToOne(() => User, (user: User) => user.admin)
   groupAdmin: User;

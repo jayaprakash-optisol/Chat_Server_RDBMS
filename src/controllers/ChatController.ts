@@ -10,6 +10,7 @@ const userRepository = AppDataSource.getRepository(User);
 
 const accessChat = async (req: Request, res: Response) => {
   const { userId } = req.body;
+  console.log('userId', userId);
 
   const chatIds = [req.user.id, userId];
 
@@ -73,7 +74,7 @@ const fetchChats = async (req: Request, res: Response) => {
           ?.map((user) => user.id === req.user.id && chat)
           .filter((i) => i !== false);
         if (x) return x;
-      })
+      }),
     ).filter((e) => e !== undefined);
 
     res.status(200).json(updatedChats);
@@ -173,7 +174,7 @@ const removeFromGroup = async (req: Request, res: Response) => {
     });
 
     const updatedUsers = updatedChat?.users.filter(
-      (user) => user.id !== userId
+      (user) => user.id !== userId,
     );
     updatedChat.users = updatedUsers;
 

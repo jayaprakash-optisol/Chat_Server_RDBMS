@@ -8,25 +8,25 @@ AppDataSource.initialize()
 
     const seedUsers = [
       {
-        id: '499887bf-69b1-4110-9369-5709c239b2d5',
+        id: 1,
         name: 'jai',
         email: 'jai@123.com',
         password: 'test123',
       },
       {
-        id: '22318b3e-3caa-4358-9a69-628d9b94ab70',
+        id: 2,
         name: 'jett',
         email: 'jett@123.com',
         password: 'test123',
       },
       {
-        id: 'd59d39d7-76f0-4b26-aa57-a09f1287414c',
+        id: 3,
         name: 'user',
         email: 'user@123.com',
         password: 'test123',
       },
       {
-        id: '9347c59a-35ed-4957-9760-547b0f889230',
+        id: 4,
         name: 'user2',
         email: 'user2@123.com',
         password: 'test123',
@@ -45,7 +45,7 @@ AppDataSource.initialize()
         user.isAdmin = false;
         await AppDataSource.manager.save(user);
         console.log('Saved a new user with id: ' + user.id);
-      })
+      }),
     );
   })
   .catch((error) => console.log(error));

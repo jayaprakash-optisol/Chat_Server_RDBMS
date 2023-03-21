@@ -63,10 +63,10 @@ const uploadFiles = async (req: Request, res: Response) => {
 
 const allMessages = async (req: Request, res: Response) => {
   try {
-    const messages = await messageRepository.find({
+    const messages: any = await messageRepository.find({
       where: {
         chat: {
-          id: req.params.chatId,
+          id: parseInt(req.params.chatId),
         },
       },
       relations: {

@@ -1,6 +1,10 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { config } from '../config/config';
-import { v4 as uuidv4 } from 'uuid';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export const s3Upload = async (files: any[]) => {
   const accessKeyId: any = config.aws.access_id;
@@ -15,16 +19,40 @@ export const s3Upload = async (files: any[]) => {
     },
   });
 
-  const params = files.map((file: any) => {
+  if (!files) return;
+
+  const params = files?.map((file: any) => {
     return {
       Bucket: config.aws.bucket_name,
-      Key: `uploads/${uuidv4()}-${file.originalname}`,
+      Key: `uploads/${file.originalname}`,
       Body: file.buffer,
     };
   });
 
   return await Promise.all(
-    params.map((param) => s3Client.send(new PutObjectCommand(param)))
+    params?.map(async (param) => {
+      try {
+        const isUploaded = await s3Client.send(new PutObjectCommand(param));
+
+        if (isUploaded) {
+          const command = new GetObjectCommand({
+            Bucket: param.Bucket,
+            Key: param.Key,
+          });
+
+          const signedUrl = await getSignedUrl(s3Client, command, {
+            expiresIn: 600,
+          });
+
+          return {
+            Key: param.Key,
+            url: signedUrl,
+          };
+        }
+      } catch (error) {
+        return error;
+      }
+    }),
   );
 };
 
