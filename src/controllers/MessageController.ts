@@ -43,12 +43,12 @@ const sendMessage = async (req: Request, res: Response) => {
   }
 };
 
-const checkBucket = async (bucket: string) => {
-  // try {
-  //   const res =
-  // } catch (error) {
-  // }
-};
+// const checkBucket = async (bucket: string) => {
+// try {
+//   const res =
+// } catch (error) {
+// }
+// };
 
 const uploadFiles = async (req: Request, res: Response) => {
   try {
@@ -89,6 +89,5 @@ const allMessages = async (req: Request, res: Response) => {
 export default {
   sendMessage,
   allMessages,
-  checkBucket,
   uploadFiles,
 };

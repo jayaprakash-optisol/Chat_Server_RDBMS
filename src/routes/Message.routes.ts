@@ -29,10 +29,11 @@ router
     protect,
     upload.array('file'),
     multerError,
-    MessageController.uploadFiles
+    MessageController.uploadFiles,
   );
-router
-  .route('/check')
-  .post(protect, upload.single('file'), MessageController.checkBucket);
+
+// router
+//   .route('/check')
+//   .post(protect, upload.single('file'), MessageController.checkBucket);
 
 export = router;
