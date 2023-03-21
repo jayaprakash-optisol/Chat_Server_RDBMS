@@ -10,7 +10,6 @@ const userRepository = AppDataSource.getRepository(User);
 
 const accessChat = async (req: Request, res: Response) => {
   const { userId } = req.body;
-  console.log('userId', userId);
 
   const chatIds = [req.user.id, userId];
 

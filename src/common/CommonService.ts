@@ -6,7 +6,7 @@ import { In } from 'typeorm';
 
 const userRepository = AppDataSource.getRepository(User);
 
-export const fetchUserById = async (id: string) => {
+export const fetchUserById = async (id: number) => {
   try {
     const loggedUser = await userRepository.findOneOrFail({
       where: { id },
